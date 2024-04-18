@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %} My works {% endblock title %}
+{% load static %}
+{% load bootstrap5 %}
+{% block content %}
+
+        <!--================Home Banner Area =================-->
+        <section class="home_banner_area blog_banner">
+            <div class="banner_inner d-flex align-items-center">
+            	<div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
+				<div class="container">
+					<div class="blog_b_text text-center">
+						<h2>Dude You’re Getting <br /> a Telescope</h2>
+					</div>
+				</div>
+            </div>
+        </section>
+        <!--================End Home Banner Area =================-->
+        
+        <section class="blog_categorie_area">
+        </section>
+
+        <!--================Blog Area =================-->
+        <section class="blog_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="blog_left_sidebar">
+                            {% for blog in blogs %}
+                            <article class="row blog_item">
+                               <div class="col-md-3">
+                                   <div class="blog_info text-right">
+                                        <ul class="blog_meta list">
+                                            <li><a href="/">{{ blog.author }}<i class="lnr lnr-user"></i></a></li>
+                                            <li><a href="/">{{ blog.published_at | date:"M d, Y" }}<i class="lnr lnr-calendar-full"></i></a></li>
+                                        </ul>
+                                    </div>
+                               </div>
+                                <div class="col-md-9">
+                                    <div class="blog_post">
+                                        <a href="/"><img style="width: 550px; height: 220px" src="{{ blog.poster.url }}" alt=""></a>
+                                        <div class="blog_details">
+                                            <a href="/"><h2>{{ post.title }}</h2></a>
+                                            <p>{{ post.description| slice:50}}</p>
+                                            <a href="{% url 'project_detail' blog.id %}" class="blog_btn">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            {% empty %}
+                             <h4 style="text-align: center">Nothing found</h4>
+                            {% endfor %}
+                            {% if blogs.has_other_pages %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+		                        <ul class="pagination">
+                                    {% if blogs.has_previous %}
+		                            <li class="page-item">
+		                                <a href="?page={{ blogs.previous_page_number }}" class="page-link" aria-label="Previous">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-left"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+		                            <li class="page-item"><a href="?page={{ blogs.previous_page_number }}" class="page-link">{{ blogs.previous_page_number }}</a></li>
+                                    {% endif %}
+		                            <li style="background-color: #8490ff;" class="page-item"><a style="color:#fff;" href="?page={{ blogs.number }}" class="page-link">{{ blogs.number }}</a></li>
+                                    {% if blogs.has_next %}
+		                            <li class="page-item"><a href="?page={{ blogs.next_page_number }}" class="page-link">{{ blogs.next_page_number }}</a></li>
+		                            <li class="page-item">
+		                                <a href="?page={{ blogs.next_page_number }}" class="page-link" aria-label="Next">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+                                    {% endif %}
+		                        </ul>
+		                    </nav>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget search_widget">
+                                <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                        <input name="search" type="text" class="form-control" placeholder="Search Posts">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                        </span>
+
+                                </div><!-- /input-group -->
+                                </form>
+                                <div class="br"></div>
+                            </aside>
+                            <aside class="single_sidebar_widget author_widget">
+                                <img style="width: 120px; height: 120px" class="author_img rounded-circle" src="{{ profile_data.secondary_image.url }}" alt="">
+                                <h4>Dilnoza Sunnatova </h4>
+                                <div class="social_icon">
+                                    {% for link in links %}
+                                    <a href="{{ link.url }}"><i class="{{ link.icon }}"></i></a>
+                                    {% endfor %}
+                                </div>
+                                <p>{{ profile_data.quote_word }}</p>
+                                <div class="br"></div>
+                            </aside>
+                            <aside class="single_sidebar_widget popular_post_widget">
+                                <h3 class="widget_title">Popular Posts</h3>
+                                {% for popular_post in popular_posts %}
+                                <div class="media post_item">
+                                    <a href="#"><img style="width: 100px; height: 60px" src="{{ popular_post.poster.url }}" alt="post"></a>
+                                    <div class="media-body">
+                                        <a href="#"><h3>{{ popular_post.title}}</h3></a>
+                                        <p>{{ popular_post.published_at| date:"M d, Y" }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <div class="br"></div>
+                            </aside>
+                            <aside class="single-sidebar-widget newsletter_widget">
+                                <h4 class="widget_title">Newsletter</h4>
+                                <p>
+                                Here, I focus on a range of items and features that we use in life without
+                                giving them a second thought.
+                                </p>
+                                <div class="br"></div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================Blog Area =================-->
+
+{% endblock %}

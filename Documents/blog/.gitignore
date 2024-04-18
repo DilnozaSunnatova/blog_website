@@ -1,0 +1,5 @@
+media/
+venv/
+*.pyc
+db.sqlite3
+__pycashe__/
